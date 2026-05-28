@@ -1,7 +1,7 @@
 from model.model import Model
 
 self_model = Model()
-t1, t2 = self_model.creaGrafo(2007, 2014)
+t1, t2 = self_model.creaGrafo(2007, 2008)
 print(t1)
 print(t2)
 t1, t2 = self_model.dettagliPeso()
@@ -13,5 +13,5 @@ print(t2)
 t1, t2 = self_model.dettagliComp2()
 print(t1)
 print(t2)
-t1 = self_model.cammino(3)
+t1 = self_model.cammino(4)
 print(t1)

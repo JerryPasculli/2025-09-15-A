@@ -83,7 +83,8 @@ class Model:
                 stringa = stringa + "\n" + self._ordinata[i].__str__()+ f"(grado={str(self._piuGrande.degree(self._ordinata[i]))})"
         return titolo, stringa
 
-    def calcolo(self, lista):
+    def calcolo(self, copia):
+        lista = copy.deepcopy(copia)
         lista.sort()
         primo = lista[-1]
         ultimo = lista[0]
@@ -91,17 +92,18 @@ class Model:
         return differenza
     def possibile(self, lista, element):
         for k in lista:
-            if element in self._G.neighbors(k):
+            if element in list(self._G.neighbors(k)):
                 return False
         return True
 
     def cammino(self, k):
         self._soluzione = []
         self._tot = math.inf
+        print("Divisore")
         for element in self._nodi:
             parziale = [element]
             self.itera(parziale, k)
-        stringa = f"Set minimo trovato con valore: {self._tot} secondi"
+        stringa = f"Set minimo trovato con valore: {self._tot/3600/24} giorni"
         for element in self._soluzione:
             stringa = stringa + "\n" +element.__str__()
         return stringa
@@ -110,13 +112,14 @@ class Model:
     def itera(self, parziale, k):
         if len(parziale) == k:
             tot = self.calcolo(parziale)
+            print(tot/3600/24)
             if tot<self._tot:
                 self._tot = tot
                 self._soluzione = copy.deepcopy(parziale)
             return
         for element in self._nodi:
             if element not in parziale:
-                if self.possibile(parziale, element) == True:
+                if self.possibile(parziale, element):
                     parziale.append(element)
                     self.itera(parziale, k)
                     parziale.pop()
