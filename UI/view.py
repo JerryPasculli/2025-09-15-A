@@ -34,7 +34,7 @@ class View(ft.UserControl):
         row1 = ft.Row([cont1,cont2, self._btnCreaGrafo], alignment=ft.MainAxisAlignment.CENTER,
                       vertical_alignment=ft.CrossAxisAlignment.END)
 
-        self._btnstampa = ft.ElevatedButton(text="Stampa Dettagli",
+        self._btnstampa = ft.ElevatedButton(text="Stampa Dettagli", disabled=True,
                                            on_click=self._controller.handleDettagli)
         row2 = ft.Row([ft.Container(self._btnstampa, width=250)
                        ], alignment=ft.MainAxisAlignment.CENTER)
@@ -50,6 +50,7 @@ class View(ft.UserControl):
         self._page.controls.append(row3)
         self.txt_result = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
         self._page.controls.append(self.txt_result)
+        self._controller.popola()
         self._page.update()
 
     def set_controller(self, controller):
