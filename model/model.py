@@ -92,42 +92,33 @@ class Model:
         return differenza
     def possibile(self, lista, element):
         for k in lista:
-            if element in list(self._G.neighbors(k)):
+            if element in nx.dfs_tree(self._G, k).nodes():
                 return False
         return True
 
     def cammino(self, k):
         self._soluzione = []
         self._tot = math.inf
-        print("Divisore")
-        cammini = list(nx.connected_components(self._G))
-        for element in cammini:
-            for nodo in element:
-                parziale = [nodo]
-                self.itera(parziale, k, cammini)
+        for element in self._nodi:
+            parziale = [element]
+            self.itera(parziale, k)
         stringa = f"Set minimo trovato con valore: {self._tot/3600/24} giorni"
         for element in self._soluzione:
             stringa = stringa + "\n" +element.__str__()
         return stringa
 
 
-    def itera(self, parziale, k, cammini):
-        if self.calcolo(parziale) > self._tot:
-            return
+    def itera(self, parziale, k):
         if len(parziale) == k:
             tot = self.calcolo(parziale)
-            print(tot/3600/24)
             if tot<self._tot:
                 self._tot = tot
                 self._soluzione = copy.deepcopy(parziale)
             return
-        for gruppo in cammini:
-            for element in gruppo:
-                if element not in parziale:
+        for element in self._nodi:
+            if element not in parziale:
+                if self.possibile(parziale, element) == True:
                     parziale.append(element)
-                    self.itera(parziale, k, cammini)
+                    if self.calcolo(parziale)<self._tot:
+                        self.itera(parziale, k)
                     parziale.pop()
-
-
-
-
